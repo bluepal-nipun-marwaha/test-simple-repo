@@ -7,7 +7,7 @@ A basic calculator application built with Python.
 - Addition
 - Subtraction
 - Multiplication
-- Division
+- Division 
 - Basic error handling
 
 ## Installation
