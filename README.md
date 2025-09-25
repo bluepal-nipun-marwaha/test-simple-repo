@@ -4,7 +4,7 @@ A basic calculator application built with Python.
 
 ## Features
 
-- Addition
+- Summation
 - Subtraction
 - Multiplication
 - Division
