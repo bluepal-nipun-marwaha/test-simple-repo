@@ -10,7 +10,7 @@ class Calculator:
         """Initialize the calculator."""
         self.history = []
     
-    def addition(self, a, b):
+    def add(self, a, b):
         """Add two numbers."""
         result = a + b
         self.history.append(f"{a} + {b} = {result}")
@@ -54,7 +54,7 @@ def main():
     
     while True:
         print("\nOptions:")
-        print("1. Addition")
+        print("1. Add")
         print("2. Subtract") 
         print("3. Multiply")
         print("4. Divide")
@@ -84,7 +84,7 @@ def main():
                 b = float(input("Enter second number: "))
                 
                 if choice == '1':
-                    result = calc.addition(a, b)
+                    result = calc.add(a, b)
                     print(f"Result: {result}")
                 elif choice == '2':
                     result = calc.subtract(a, b)
