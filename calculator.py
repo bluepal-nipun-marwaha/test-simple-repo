@@ -6,7 +6,7 @@ Simple Calculator Application
 class Calculator:
     """A simple calculator class with basic operations."""
     
-    def _init_(self):
+    def __init__(self):
         """Initialize the calculator."""
         self.history = []
     
@@ -35,12 +35,6 @@ class Calculator:
         result = a / b
         self.history.append(f"{a} / {b} = {result}")
         return result
-
-    def power(self, a, b):
-        """Raise a to the power of b."""
-        result = a ** b
-        self.history.append(f"{a} ^ {b} = {result}")
-        return result
     
     def get_history(self):
         """Get calculation history."""
@@ -64,17 +58,16 @@ def main():
         print("2. Subtract") 
         print("3. Multiply")
         print("4. Divide")
-        print("5. Power (a^b)")
-        print("6. Show History")
-        print("7. Clear History")
-        print("8. Exit")
+        print("5. Show History")
+        print("6. Clear History")
+        print("7. Exit")
         
-        choice = input("\nEnter your choice (1-8): ")
+        choice = input("\nEnter your choice (1-7): ")
         
-        if choice == '8':
+        if choice == '7':
             print("Goodbye!")
             break
-        elif choice == '6':
+        elif choice == '5':
             history = calc.get_history()
             if history:
                 print("\nCalculation History:")
@@ -82,10 +75,10 @@ def main():
                     print(f"  {entry}")
             else:
                 print("\nNo calculations yet.")
-        elif choice == '7':
+        elif choice == '6':
             calc.clear_history()
             print("\nHistory cleared.")
-        elif choice in ['1', '2', '3', '4', '5']:
+        elif choice in ['1', '2', '3', '4']:
             try:
                 a = float(input("Enter first number: "))
                 b = float(input("Enter second number: "))
@@ -102,15 +95,11 @@ def main():
                 elif choice == '4':
                     result = calc.divide(a, b)
                     print(f"Result: {result}")
-                elif choice == '5':
-                    result = calc.power(a, b)
-                    print(f"Result: {result}")
-                    
             except ValueError as e:
                 print(f"Error: {e}")
         else:
             print("Invalid choice. Please try again.")
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
