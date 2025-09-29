@@ -7,7 +7,7 @@ class Calculator:
     """A simple calculator class with basic operations."""
     
     def __init__(self):
-        """Initialize the calculator."""
+        """Initialize the calculator."""  
         self.history = []
     
     def addition(self, a, b):
