@@ -41,7 +41,7 @@ class Calculator:
         result = a ** b
         self.history.append(f"{a} ^ {b} = {result}")
         return result
-
+    
     def factorial(self, n):
         """Calculate factorial of a number."""
         if n < 0:
@@ -77,22 +77,18 @@ def main():
     
     while True:
         print("\nOptions:")
-        print("1. Addition")
-        print("2. Subtract") 
+        print("1. Subtract")
+        print("2. Addition") 
         print("3. Multiply")
         print("4. Divide")
         print("5. Power (a^b)")
         print("6. Factorial (n!)")
         print("7. Show History")
         print("8. Clear History")
-        print("9. Exit")
         
-        choice = input("\nEnter your choice (1-9): ")
+        choice = input("\nEnter your choice (1-8): ")
         
-        if choice == '9':
-            print("Goodbye!")
-            break
-        elif choice == '7':
+        if choice == '7':
             history = calc.get_history()
             if history:
                 print("\nCalculation History:")
@@ -100,7 +96,7 @@ def main():
                     print(f"  {entry}")
             else:
                 print("\nNo calculations yet.")
-        elif choice == '8':
+        elif choice == '7':
             calc.clear_history()
             print("\nHistory cleared.")
         elif choice in ['1', '2', '3', '4', '5', '6']:
@@ -112,10 +108,10 @@ def main():
                     b = float(input("Enter second number: "))
                 
                 if choice == '1':
-                    result = calc.addition(a, b)
+                    result = calc.subtract(a, b)
                     print(f"Result: {result}")
                 elif choice == '2':
-                    result = calc.subtract(a, b)
+                    result = calc.addition(a, b)
                     print(f"Result: {result}")
                 elif choice == '3':
                     result = calc.multiply(a, b)
