@@ -67,7 +67,6 @@ def main():
         print("5. Power (a^b)")
         print("6. Show History")
         print("7. Clear History")
-        print("8. Exit")
         
         choice = input("\nEnter your choice (1-8): ")
         

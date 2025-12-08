@@ -85,6 +85,7 @@ def main():
         print("6. Factorial (n!)")
         print("7. Show History")
         print("8. Clear History")
+        print("9. Exit")
         
         choice = input("\nEnter your choice (1-8): ")
         
@@ -96,9 +97,12 @@ def main():
                     print(f"  {entry}")
             else:
                 print("\nNo calculations yet.")
-        elif choice == '7':
+        elif choice == '8':
             calc.clear_history()
             print("\nHistory cleared.")
+        elif choice == '9':
+            print("Goodbye!")
+            break
         elif choice in ['1', '2', '3', '4', '5', '6']:
             try:
                 if choice == '6':
