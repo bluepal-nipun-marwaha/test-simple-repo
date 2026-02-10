@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple Calculator Application
+Simple Calculator Program
 """
 
 class Calculator:
