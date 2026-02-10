@@ -4,3 +4,4 @@
 # Optional: For enhanced features
 # pytest>=7.0.0  # For testing
 # black>=22.0.0   # For code formatting
+# fastapi # For webserver
