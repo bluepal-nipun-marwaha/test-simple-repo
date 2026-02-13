@@ -65,7 +65,11 @@ class Calculator:
     
     def clear_history(self):
         """Clear calculation history."""
-        self.history = []
+        self.history = []   
+
+    def announcement(self):
+        print("HELLOOOOOOO")
+        return "BYEEEEEEE"
 
     
 
