@@ -67,9 +67,6 @@ class Calculator:
         """Clear calculation history."""
         self.history = []
 
-    def announcement(self):
-        print("THIS IS AN ANNOUNCEMENT!!!!")
-
 
 def main():
     """Main function to run the calculator."""
