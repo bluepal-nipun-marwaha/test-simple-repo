@@ -24,7 +24,7 @@ def minutes_to_hours(minutes):
 
 
 def main():
-    print("===== Simple Unit Converter =====")
+    print("====== Simple Unit Converter ======")
     print("1. Meters → Kilometers")
     print("2. Kilometers → Meters")
     print("3. Celsius → Fahrenheit")
