@@ -4,19 +4,22 @@ A basic calculator application built with Python.
 
 ## Features
 
-- Summation
+- Addition
 - Subtraction
 - Multiplication
 - Division
+- Power (exponentiation)
+- Factorial
+- Calculation history
 - Basic error handling
 
 ## Installation
 
-```bash
-pip install -r requirements.txt
-```
+No external dependencies. Ensure you have Python 3.6 or higher installed.
 
 ## Usage
+
+Run the command-line application:
 
 ```bash
 python calculator.py
@@ -28,7 +31,7 @@ python calculator.py
 from calculator import Calculator
 
 calc = Calculator()
-result = calc.add(5, 3)  # Returns 8
+result = calc.addition(5, 3)  # Returns 8
 print(result)
 ```
 
