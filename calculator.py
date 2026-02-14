@@ -67,7 +67,9 @@ class Calculator:
         """Clear calculation history."""
         self.history = []   
     
-    
+    def announcement(self):
+        print("HELLOOOOOO")
+        return "BYEEEEEEEE"
     
 
 
@@ -89,8 +91,9 @@ def main():
         print("7. Show History")
         print("8. Clear History")
         print("9. Exit")
+        print("10. Announcement")
         
-        choice = input("\nEnter your choice (1-8): ")
+        choice = input("\nEnter your choice (1-10): ")
         
         if choice == '7':
             history = calc.get_history()
