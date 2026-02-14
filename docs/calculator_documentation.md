@@ -24,7 +24,7 @@ The Calculator Application is a Python-based command-line calculator that provid
 - **Error Handling**: Graceful handling of invalid inputs and division by zero
 - **Interactive Menu**: Easy-to-use command-line interface
 - **History Management**: Clear history functionality
-- **Factorial Calculation**: Compute the factorial of an integer
+- **Announcement Function**: A fun announcement feature
 
 ## Installation
 
@@ -46,7 +46,7 @@ python calculator.py
 
 ### Basic Workflow
 1. Run the application
-2. Select an operation from the menu (1-9)
+2. Select an operation from the menu (1-8)
 3. Enter the required numbers when prompted
 4. View the result
 5. Optionally view or clear calculation history
@@ -63,7 +63,6 @@ python calculator.py
 | `multiply(a, b)` | Multiplies two numbers | `a`, `b` (numbers) | Product of a and b |
 | `divide(a, b)` | Divides first number by second | `a`, `b` (numbers) | Quotient of a and b |
 | `power(a, b)` | Raises a to the power of b | `a`, `b` (numbers) | a raised to power b |
-| `factorial(n)` | Calculates the factorial of a number | `n` (integer) | Factorial of n |
 
 ### History Methods
 
@@ -105,12 +104,6 @@ python calculator.py
 - **Output**: Result of exponentiation
 - **Example**: `2.0 ^ 3.0 = 8.0`
 
-### Option 6: Factorial
-- **Function**: Calculates the factorial of an integer
-- **Input**: One integer
-- **Output**: Factorial of the integer
-- **Example**: `5! = 120`
-
 ### Option 6: Show History
 - **Function**: Displays all previous calculations
 - **Input**: None
@@ -128,6 +121,12 @@ python calculator.py
 - **Input**: None
 - **Output**: Goodbye message
 - **Effect**: Application closes
+
+### Option 10: Announcement
+- **Function**: Displays an announcement message
+- **Input**: None
+- **Output**: Prints 'HELLLOOOOOO' and returns 'BYEEEEE'
+- **Effect**: Displays announcement text
 
 ## Error Handling
 
@@ -176,17 +175,17 @@ Options:
 7. Clear History
 8. Exit
 
-Enter your choice (1-9): 1
+Enter your choice (1-10): 1
 Enter first number: 5.5
 Enter second number: 3.2
 Result: 8.7
 
-Enter your choice (1-9): 6
+Enter your choice (1-10): 6
 
 Calculation History:
   5.5 + 3.2 = 8.7
 
-Enter your choice (1-9): 8
+Enter your choice (1-10): 8
 Goodbye!
 ```
 
