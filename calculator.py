@@ -1,145 +1,152 @@
-#!/usr/bin/env python3
-"""
-Simple Calculator App
-"""
+import tkinter as tk
 
-class Calculator:
-    """A simple calculator class with basic operations."""
-    
-    def __init__(self):
-        """Initialize the calculator.""" 
-        self.history = []
-    
-    def addition(self, a, b):
-        """Add two numbers."""
-        result = a + b
-        self.history.append(f"{a} + {b} = {result}")
-        return result
-    
-    def subtract(self, a, b):
-        """Subtract two numbers."""
-        result = a - b
-        self.history.append(f"{a} - {b} = {result}")
-        return result
-    
-    def multiply(self, a, b):
-        """Multiply two numbers."""
-        result = a * b
-        self.history.append(f"{a} * {b} = {result}")
-        return result
-    
-    def divide(self, a, b):
-        """Divide two numbers."""
-        if b == 0:
-            raise ValueError("Cannot divide by zero")
-        result = a / b
-        self.history.append(f"{a} / {b} = {result}")
-        return result
+root = tk.Tk()
+root.title("Custom Calculator")
+root.geometry("350x500")
+root.resizable(False, False)
 
-    def power(self, a, b):
-        """Raise a to the power of b."""
-        result = a ** b
-        self.history.append(f"{a} ^ {b} = {result}")
-        return result
-    
-    def factorial(self, n):
-        """Calculate factorial of a number."""
-        if n < 0:
-            raise ValueError("Factorial is not defined for negative numbers")
-        if not isinstance(n, int) or n != int(n):
-            raise ValueError("Factorial is only defined for integers")
-        
-        if n == 0 or n == 1:
-            result = 1
+# ---------------- Colors ----------------
+BG_COLOR = "#1e1e1e"
+DISPLAY_COLOR = "#252526"
+BTN_COLOR = "#333333"
+OPERATOR_COLOR = "#ff9500"
+EQUAL_COLOR = "#28a745"
+TEXT_COLOR = "white"
+
+root.configure(bg=BG_COLOR)
+
+# ---------------- Variables ----------------
+expression = ""
+current_input = ""
+
+equation = tk.StringVar()
+history_var = tk.StringVar()
+
+# ---------------- History Label ----------------
+history_label = tk.Label(
+    root,
+    textvariable=history_var,
+    font=("Arial", 14),
+    bg=BG_COLOR,
+    fg="#888888",
+    anchor="e"
+)
+history_label.pack(fill="both", padx=10, pady=(10, 0))
+
+# ---------------- Display ----------------
+display = tk.Entry(
+    root,
+    textvariable=equation,
+    font=("Arial", 24),
+    bd=0,
+    bg=DISPLAY_COLOR,
+    fg=TEXT_COLOR,
+    insertbackground="white",
+    justify="right"
+)
+display.pack(fill="both", ipadx=8, ipady=20, padx=10, pady=5)
+
+# ---------------- Functions ----------------
+
+def press(key):
+    global expression, current_input
+
+    if key in "+-*/":
+        if current_input == "":
+            return  # Prevent double operators
+
+        expression += current_input + key
+        history_var.set(expression)
+        current_input = ""
+        equation.set("")
+    else:
+        current_input += str(key)
+        equation.set(current_input)
+
+
+def equalpress():
+    global expression, current_input
+
+    try:
+        expression += current_input
+        result = eval(expression)
+
+        # Scientific notation for large numbers
+        if abs(result) >= 1e9:
+            formatted = "{:.6e}".format(result)
         else:
-            result = 1
-            for i in range(2, n + 1):
-                result *= i
-        
-        self.history.append(f"{n}! = {result}")
-        return result
-    
-    def get_history(self):
-        """Get calculation history."""
-        return self.history
-    
-    def clear_history(self):
-        """Clear calculation history."""
-        self.history = []   
+            formatted = str(result)
 
-    def announcement(self):
-        print("HELLLOOOOOO")
-        return "BYEEEEE"
+        equation.set(formatted)
+        history_var.set("")
+        expression = ""
+        current_input = formatted
+
+    except:
+        equation.set("Error")
+        expression = ""
+        current_input = ""
 
 
-def main():
-    """Main function to run the calculator."""
-    calc = Calculator()
-    
-    print("Simple Calculator")
-    print("================")
-    
-    while True:
-        print("\nOptions:")
-        print("1. Subtract")
-        print("2. Addition") 
-        print("3. Multiply")
-        print("4. Divide")
-        print("5. Power (a^b)")
-        print("6. Factorial (n!)")
-        print("7. Show History")
-        print("8. Clear History")
-        print("9. Exit")
-        print("10. Announcement")
-        
-        choice = input("\nEnter your choice (1-10): ")
-        
-        if choice == '7':
-            history = calc.get_history()
-            if history:
-                print("\nCalculation History:")
-                for entry in history:
-                    print(f"  {entry}")
-            else:
-                print("\nNo calculations yet.")
-        elif choice == '8':
-            calc.clear_history()
-            print("\nHistory cleared.")
-        elif choice == '9':
-            print("Goodbye!")
-            break
-        elif choice in ['1', '2', '3', '4', '5', '6']:
-            try:
-                if choice == '6':
-                    a = int(input("Enter a number: "))
-                else:
-                    a = float(input("Enter first number: "))
-                    b = float(input("Enter second number: "))
-                
-                if choice == '1':
-                    result = calc.subtract(a, b)
-                    print(f"Result: {result}")
-                elif choice == '2':
-                    result = calc.addition(a, b)
-                    print(f"Result: {result}")
-                elif choice == '3':
-                    result = calc.multiply(a, b)
-                    print(f"Result: {result}")
-                elif choice == '4':
-                    result = calc.divide(a, b)
-                    print(f"Result: {result}")
-                elif choice == '5':
-                    result = calc.power(a, b)
-                    print(f"Result: {result}")
-                elif choice == '6':
-                    result = calc.factorial(a)
-                    print(f"Result: {result}")
-                    
-            except ValueError as e:
-                print(f"Error: {e}")
-        else:
-            print("Invalid choice. Please try again.")
+def clear():
+    global expression, current_input
+    expression = ""
+    current_input = ""
+    equation.set("")
+    history_var.set("")
 
 
-if __name__ == "__main__":
-    main()
+# ---------------- Buttons ----------------
+
+button_frame = tk.Frame(root, bg=BG_COLOR)
+button_frame.pack()
+
+buttons = [
+    ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
+    ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
+    ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
+    ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3),
+]
+
+for (text, row, col) in buttons:
+
+    if text == "=":
+        bg_color = EQUAL_COLOR
+        action = equalpress
+    elif text in "+-*/":
+        bg_color = OPERATOR_COLOR
+        action = lambda x=text: press(x)
+    else:
+        bg_color = BTN_COLOR
+        action = lambda x=text: press(x)
+
+    tk.Button(
+        button_frame,
+        text=text,
+        width=5,
+        height=2,
+        font=("Arial", 18),
+        bg=bg_color,
+        fg=TEXT_COLOR,
+        activebackground="#555555",
+        activeforeground="white",
+        bd=0,
+        command=action
+    ).grid(row=row, column=col, padx=5, pady=5)
+
+# ---------------- Clear Button ----------------
+
+tk.Button(
+    button_frame,
+    text="C",
+    width=23,
+    height=2,
+    font=("Arial", 18),
+    bg="#d9534f",
+    fg="white",
+    activebackground="#c9302c",
+    bd=0,
+    command=clear
+).grid(row=5, column=0, columnspan=4, pady=10)
+
+root.mainloop()
