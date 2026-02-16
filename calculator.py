@@ -12,14 +12,14 @@ CONFIG = {
         "background_color": "#1e1e1e"
     },
     "colors": {
-        "display_background": "#252526",
-        "button_default": "#333333",
-        "button_operator": "#ff9500",
-        "button_equals": "#28a745",
+        "display_background": "#2d2d2d",
+        "button_default": "#3a3a3a",
+        "button_operator": "#cc7000",
+        "button_equals": "#1e7e34",
         "button_clear": "#d9534f",
-        "button_blank": "#2a2a2a",
+        "button_blank": "#333333",
         "text": "white",
-        "history_text": "#aaaaaa"
+        "history_text": "#bbbbbb"
     },
     "formatting": {
         "scientific_threshold": 1e9,
@@ -129,7 +129,7 @@ buttons = [
     ["4", "5", "6", "*"],
     ["1", "2", "3", "-"],
     ["0", ".", "=", "+"],
-    ["C", "", "", ""]
+    ["C", "(", ")", "!"]
 ]
 
 for r, row in enumerate(buttons):
