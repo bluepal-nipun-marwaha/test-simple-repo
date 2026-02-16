@@ -2,21 +2,30 @@
 
 ## Overview
 
-Custom Calculator is a desktop GUI calculator built using Python and Tkinter.  
-It supports arithmetic operations, scientific notation formatting for large numbers, and a dynamic history bar UI.
+Custom Calculator is a desktop GUI calculator built using Python and Tkinter.
 
-This project is designed with maintainability and automated documentation updates in mind.
+It supports:
+
+- Basic arithmetic operations
+- Scientific notation formatting for large numbers
+- A dynamic history bar UI
+- Centralized configuration for styling and formatting
+
+The application uses a centralized `CONFIG` architecture to define UI styling, formatting rules, and fonts for improved maintainability and automated documentation updates.
 
 ---
 
 ## Features
 
-- Basic arithmetic operations (+, -, *, /)
-- Scientific notation formatting for large results (>= 1e9)
+- Basic arithmetic operations (`+`, `-`, `*`, `/`)
+- Scientific notation formatting for large results (`>= 1e9`)
 - Dynamic history bar that displays the previous expression
-- Dark-themed UI
-- Clear (C) functionality
+- Centralized configuration (window, colors, fonts, formatting)
+- Bold, high-visibility UI typography
+- Equal-sized responsive button grid
+- Clear (`C`) functionality
 - Error handling for invalid expressions
+- Additional blank button row for layout extensibility
 
 ---
 
@@ -31,6 +40,8 @@ This project is designed with maintainability and automated documentation update
   - The result is shown in the main display.
   - The history bar clears.
 - Large numbers are automatically formatted into scientific notation.
+- All buttons are equal size using weighted grid configuration.
+- Text is bold and larger for readability.
 
 ---
 
@@ -42,9 +53,16 @@ This project is designed with maintainability and automated documentation update
 
 ### Run
 
-```bash
-python calculator.py
-```
+    python calculator.py
+
+---
+
+## Project Structure
+
+    calculator.py
+    README.md
+    user_documentation.txt
+    dev_documentation.rst
 
 ---
 
@@ -54,34 +72,29 @@ python calculator.py
 - Does not support parentheses.
 - Does not support memory functions.
 - No keyboard input support (button-only interaction).
+- No validation preventing multiple decimal points.
 
 ---
 
-## Project Structure
+## Documentation Automation Requirements
 
-```
-calculator.py
-```
+Documentation must be updated whenever:
 
----
+- Window size changes
+- Font configuration changes
+- Color configuration changes
+- Button layout changes
+- Formatting rules change
+- State logic changes
+- Evaluation logic changes
 
-## Documentation Automation
-
-This repository is integrated with an automated documentation update system.
-
-Any code change must be reflected in:
-
-- README.md
-- USER_GUIDE.md
-- ARCHITECTURE.md
-
-Changes affecting UI behavior, logic flow, state variables, formatting rules, or evaluation logic must update the corresponding documentation sections.
+All three documentation files must remain synchronized.
 
 ---
 
 ## Versioning
 
-Versioning follows semantic versioning principles:
+Versioning follows semantic versioning:
 
 MAJOR.MINOR.PATCH
 

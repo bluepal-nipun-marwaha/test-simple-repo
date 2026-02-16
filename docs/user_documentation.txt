@@ -10,11 +10,10 @@ This document defines:
 - Button behavior
 - State transitions
 - Color scheme
+- Typography
 - Result formatting
 - Error handling
 - Update triggers
-
-This document must remain consistent with application behavior.
 
 ---
 
@@ -22,280 +21,125 @@ This document must remain consistent with application behavior.
 
 ## 2.1 Window Configuration
 
-- Window Size: 350x500
+- Window Size: 350x550
 - Resizable: Disabled
 - Background Color: #1e1e1e
 
 ---
 
-## 2.2 Color Scheme
+## 2.2 Typography
 
-The application uses the following color constants:
+The application uses bold, high-visibility fonts.
 
-| UI Element | Color | Hex |
-|------------|--------|------|
-| Background | Dark Gray | #1e1e1e |
-| Display Background | Dark Slate | #252526 |
-| Default Button | Dark Gray | #333333 |
-| Operator Buttons | Orange | #ff9500 |
-| Equals Button | Green | #28a745 |
-| Clear Button | Red | #d9534f |
-| Button Active Background | Medium Gray | #555555 |
-| Text Color | White | white |
-| History Text Color | Light Gray | #888888 |
+| UI Element   | Font               |
+|--------------|-------------------|
+| History Bar  | Arial 14 Bold     |
+| Main Display | Arial 26 Bold     |
+| Buttons      | Arial 18 Bold     |
 
-If any of these values change in code, this table must be updated.
+All text is bold for improved readability.
 
 ---
 
-# 3. Display Components
+## 2.3 Color Scheme
 
-## 3.1 History Bar (Top Label)
-
-Purpose:
-Displays the previous number and selected operator.
-
-Behavior:
-- Updates when an operator is pressed.
-- Clears when "=" is pressed.
-- Clears when "C" is pressed.
-- Displays in light gray (#888888).
-- Right-aligned.
-
-Example:
-```
-1111111*
-```
+| UI Element            | Hex      |
+|-----------------------|----------|
+| Background            | #1e1e1e  |
+| Display Background    | #252526  |
+| Default Button        | #333333  |
+| Operator Buttons      | #ff9500  |
+| Equals Button         | #28a745  |
+| Clear Button          | #d9534f  |
+| Blank Button Row      | #2a2a2a  |
+| Text Color            | white    |
+| History Text Color    | #aaaaaa  |
 
 ---
 
-## 3.2 Main Display (Entry Field)
+# 3. Layout Structure
 
-Purpose:
-Displays:
-- Current number being typed
-- Final calculation result
-- Error message
-
-Behavior:
-- Right-aligned
-- White text
-- Dark background (#252526)
-- Clears when:
-  - Operator is pressed
-  - Clear is pressed
-  - Error occurs
+- Row 0: History bar
+- Row 1: Main display
+- Rows 2–6: Button grid
+- All button rows are equal height
+- All columns are equal width
+- Final row includes blank placeholder buttons
 
 ---
 
 # 4. Button Behavior Specification
 
-## 4.1 Numeric Buttons (0–9)
+## Numeric Buttons (0–9)
 
-Color:
-- Background: #333333
-- Text: white
-
-Behavior:
-- Appends digit to `current_input`
+- Appends digit to current input
 - Updates main display
-- Does not affect history bar
-
-Example:
-```
-Press 1 → display: 1
-Press 2 → display: 12
-```
 
 ---
 
-## 4.2 Decimal Button (.)
+## Decimal (.)
 
-Behavior:
-- Appends "." to `current_input`
+- Appends decimal point
 - No validation prevents multiple decimals
-- Updates main display
 
 ---
 
-## 4.3 Operator Buttons (+, -, *, /)
+## Operator Buttons (+, -, *, /)
 
-Color:
-- Background: #ff9500
-- Text: white
-
-Behavior when pressed:
-
-1. Appends `current_input` to `expression`
-2. Appends selected operator to `expression`
-3. Updates history bar with:
-   ```
-   [current_input][operator]
-   ```
-4. Clears main display
-5. Resets `current_input`
-
-Example:
-
-Input:
-```
-1111111
-Press *
-```
-
-Result:
-- History bar: `1111111*`
-- Main display: empty
-
----
-
-## 4.4 Equals Button (=)
-
-Color:
-- Background: #28a745
-- Text: white
-
-Behavior:
-
-1. Appends `current_input` to `expression`
-2. Evaluates full expression using Python `eval()`
-3. Applies scientific formatting if threshold met
-4. Displays result in main display
-5. Clears history bar
-6. Resets `expression`
-7. Sets result as new `current_input`
-
----
-
-## 4.5 Clear Button (C)
-
-Color:
-- Background: #d9534f
-- Text: white
-
-Behavior:
-
-- Clears `expression`
-- Clears `current_input`
+- Moves current number to history bar
+- Appends operator to expression
 - Clears main display
-- Clears history bar
-- Returns calculator to initial state
 
 ---
 
-# 5. Result Display Rules
+## Equals (=)
 
-## 5.1 Normal Results
-
-If:
-
-```
-abs(result) < 1e9
-```
-
-Result is displayed as standard string representation.
+- Evaluates full expression using eval()
+- Applies scientific formatting if abs(result) >= 1e9
+- Displays formatted result
+- Clears history
 
 ---
 
-## 5.2 Scientific Notation Rule
+## Clear (C)
+
+- Resets expression
+- Resets current input
+- Clears display
+- Clears history
+
+---
+
+# 5. Scientific Formatting Rule
 
 If:
 
-```
 abs(result) >= 1e9
-```
 
-Formatting:
+Format result using:
 
-```
-"{:.6e}".format(result)
-```
-
-Example:
-
-| Raw Result | Display |
-|------------|----------|
-| 10000000000 | 1.000000e+10 |
-| 1234567890123 | 1.234568e+12 |
+"{:.6e}"
 
 ---
 
 # 6. Error Handling
 
-If evaluation fails (e.g., division by zero):
+On evaluation failure:
 
-- Display shows: `Error`
-- `expression` resets
-- `current_input` resets
-- History clears
+- Display shows "Error"
+- All internal state resets
 
 ---
 
-# 7. State Model (User-Relevant Explanation)
-
-The calculator internally maintains:
-
-- `expression` → full mathematical expression
-- `current_input` → currently typed number
-
-Operators move input to history.
-Equals evaluates full expression.
-Clear resets entire state.
-
----
-
-# 8. Interaction Flow Example
-
-Example Sequence:
-
-```
-Press 1
-Press 1
-Press 1
-Press *
-Press 5
-Press 5
-Press 5
-Press =
-```
-
-System State Transitions:
-
-1. current_input = "111"
-2. expression = "111*"
-3. history = "111*"
-4. current_input = "555"
-5. expression = "111*555"
-6. result evaluated
-7. display shows result
-8. expression reset
-9. history cleared
-
----
-
-# 9. Limitations
-
-- Parentheses not supported
-- No memory storage
-- No keyboard support
-- Uses eval()
-- No multi-step chained evaluation without pressing "="
-
----
-
-# 10. Documentation Update Requirements
+# 7. Documentation Update Requirements
 
 This document must be updated if:
 
+- Window size changes
+- Font sizes change
 - Color constants change
-- Button colors change
-- UI layout changes
-- State variables change
-- Scientific threshold changes
-- Formatting rule changes
-- Operator behavior changes
-- Error handling changes
-- New buttons are added
-- Button removal occurs
-
-Failure to update this document after behavior changes results in documentation inconsistency.
+- Button layout changes
+- Blank row modified or removed
+- Formatting rules change
+- State model changes
+- Evaluation engine changes

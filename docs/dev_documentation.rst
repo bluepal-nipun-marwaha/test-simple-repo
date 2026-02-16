@@ -1,328 +1,315 @@
-# Developer Technical Specification
+Developer Documentation
+=======================
 
-## 1. Purpose
+1. Architectural Overview
+-------------------------
 
-This document defines the complete internal behavior, state model, UI contract, evaluation rules, and update triggers of the Custom Calculator application.
+The calculator application is a Tkinter-based GUI program structured around:
 
-This document acts as the authoritative technical contract for:
+- A centralized CONFIG dictionary
+- A global expression state model
+- Event-driven button callbacks
+- Grid-based layout management
+- A lightweight formatting layer for large-number rendering
 
-- Code behavior
-- UI state transitions
-- Formatting logic
-- Error handling
-- Documentation update validation
+The architecture intentionally separates:
 
-If implementation changes violate this document, the documentation must be updated accordingly.
+- UI configuration
+- State management
+- Expression evaluation
+- Display formatting
 
----
-
-# 2. Application Architecture
-
-The application follows an event-driven architecture using Tkinter.
-
-Core components:
-
-- Root window
-- History label (tk.Label)
-- Main display (tk.Entry)
-- Button grid (tk.Button)
-- State variables
-- Event handlers
+This separation ensures documentation automation tools can detect and update changes reliably.
 
 ---
 
-# 3. State Model
+2. Global State Model
+---------------------
 
-The calculator operates using two primary internal state variables.
+The calculator maintains two primary state variables:
 
-## 3.1 expression
+expression (str)
+    Stores the full arithmetic expression being built.
+    Example: "12+3*5"
 
-Type: str  
-Initial Value: ""  
+current_input (str)
+    Stores the currently visible number in the main display.
+    Reset when operators are pressed.
+
+State Reset Conditions:
+- Clear button press
+- Evaluation error
+- Successful evaluation (partial reset)
+
+Any changes to state handling must be documented.
+
+---
+
+3. CONFIG Dictionary
+--------------------
+
+The CONFIG dictionary centralizes:
+
+- Window properties
+- Color palette
+- Font definitions
+- Formatting rules
 
 Purpose:
-Stores the full arithmetic expression being constructed prior to evaluation.
+    Prevent hardcoded styling.
+    Ensure documentation references a single source of truth.
+
+Subsections:
+
+CONFIG["window"]
+    width
+    height
+    resizable
+
+CONFIG["colors"]
+    display_background
+    button_default
+    button_operator
+    button_equals
+    button_clear
+    button_blank
+    text
+    history_text
+
+CONFIG["fonts"]
+    history
+    display
+    button
+
+CONFIG["formatting"]
+    scientific_threshold
+    scientific_precision
+
+Documentation Rule:
+Any addition, removal, or rename of CONFIG keys requires:
+- README update
+- User documentation update
+- Developer documentation update
+
+---
+
+4. Layout System
+----------------
+
+The UI uses Tkinter's grid manager.
+
+Row Structure:
+
+Row 0:
+    History bar label
+
+Row 1:
+    Main display label
+
+Rows 2–6:
+    Button grid
+
+Grid Configuration:
+- All columns have equal weight.
+- All button rows have equal weight.
+- Blank button row exists for layout symmetry.
+
+If grid weights or layout structure change,
+documentation must reflect:
+
+- Row definitions
+- Column counts
+- Button placement rules
+
+---
+
+5. Button Categories
+--------------------
+
+Buttons are categorized logically:
+
+Numeric Buttons (0–9)
+    Append digit to current_input
+    Update main display
+
+Decimal Button (.)
+    Appends decimal without validation
+
+Operator Buttons (+, -, *, /)
+    Move current_input to history
+    Append operator to expression
+    Reset current_input
+
+Equals Button (=)
+    Triggers evaluation function
+    Applies formatting
+    Clears history bar
+
+Clear Button (C)
+    Resets expression
+    Resets current_input
+    Clears display and history
+
+Blank Buttons
+    Disabled
+    Layout placeholders only
+
+If button categories change,
+documentation must update:
+
+- Behavior rules
+- UI description
+- State transition logic
+
+---
+
+6. Evaluation Engine
+--------------------
+
+Evaluation is performed using Python's eval().
+
+Process:
+
+1. Combine expression string.
+2. Execute eval(expression).
+3. Store result.
+4. Apply formatting rules.
+5. Update display.
+6. Reset appropriate state.
+
+Risks:
+- eval() is unsafe for arbitrary input.
+- No operator precedence modification.
+- No parentheses support.
+
+Any change to evaluation engine requires:
+
+- Security implications documented
+- Behavioral change documented
+- Formatting section updated
+
+---
+
+7. Scientific Formatting Layer
+------------------------------
+
+Purpose:
+    Prevent UI overflow when displaying large numbers.
+
+Rule:
+
+If abs(result) >= scientific_threshold:
+    Format using "{:.{precision}e}"
+
+Controlled by:
+
+CONFIG["formatting"]["scientific_threshold"]
+CONFIG["formatting"]["scientific_precision"]
+
+If formatting rules change,
+documentation must reflect:
+
+- Threshold value
+- Precision value
+- Display examples
+
+---
+
+8. Error Handling
+-----------------
+
+On evaluation exception:
+
+- Display shows "Error"
+- expression resets to empty string
+- current_input resets
+- history clears
+
+If error handling behavior changes,
+documentation must include:
+
+- What triggers error
+- How UI responds
+- What state resets occur
+
+---
+
+9. Documentation Synchronization Rules
+--------------------------------------
+
+The following code modifications REQUIRE documentation updates:
+
+- Adding new buttons
+- Removing buttons
+- Changing colors
+- Changing fonts
+- Changing layout grid
+- Changing scientific threshold
+- Changing formatting precision
+- Changing state variable structure
+- Replacing eval()
+- Introducing new classes
+- Adding keyboard input support
+
+Failure to update documentation creates drift and must be prevented by CI or automation checks.
+
+---
+
+10. Function Documentation Standard
+------------------------------------
+
+Each function in calculator.py must document:
+
+Purpose:
+    What the function does logically.
+
+Inputs:
+    Parameters and expected types.
+
+State Effects:
+    Which global variables it modifies.
+
+UI Effects:
+    Which labels/widgets it updates.
+
+Error Conditions:
+    What failures can occur.
 
 Example:
-```
-"1111111*5555555"
-```
 
-Invariant:
-- Contains only numeric characters, ".", and operators (+ - * /)
-- Does not contain whitespace
-- Must not contain trailing operator when "=" is pressed
+def equalpress():
+    """
+    Purpose:
+        Evaluate the current expression string.
 
----
+    Inputs:
+        None (uses global state).
 
-## 3.2 current_input
+    State Effects:
+        Modifies expression and current_input.
 
-Type: str  
-Initial Value: ""  
+    UI Effects:
+        Updates main display.
+        Clears history label.
 
-Purpose:
-Stores the number currently being entered by the user.
+    Error Handling:
+        Catches all exceptions and resets state.
+    """
 
-Invariant:
-- Contains only numeric characters and "."
-- Cleared when operator is pressed
-- Replaced with formatted result after "="
-
----
-
-# 4. Display Variables
-
-## 4.1 equation (tk.StringVar)
-
-Represents the main display value.
-
-Must always reflect:
-- current_input OR
-- formatted result OR
-- "Error"
+This level of documentation ensures automated LLM diff analysis
+can reliably detect behavior changes.
 
 ---
 
-## 4.2 history_var (tk.StringVar)
-
-Represents the history bar content.
-
-Must reflect:
-- current_input + operator (after operator press)
-- Empty after "="
-- Empty after "C"
-
----
-
-# 5. UI Contract
-
-## 5.1 Window Configuration
-
-- Size: 350x500
-- Resizable: False
-- Background color: #1e1e1e
-
-If modified, documentation must update Section 5.
-
----
-
-## 5.2 Color Constants
-
-Defined constants:
-
-BG_COLOR = "#1e1e1e"  
-DISPLAY_COLOR = "#252526"  
-BTN_COLOR = "#333333"  
-OPERATOR_COLOR = "#ff9500"  
-EQUAL_COLOR = "#28a745"  
-CLEAR_COLOR = "#d9534f"  
-TEXT_COLOR = "white"  
-HISTORY_TEXT_COLOR = "#888888"
-
-If any constant changes, documentation must update color specification.
-
----
-
-# 6. Event Handlers
-
-## 6.1 press(key)
-
-Behavior:
-
-IF key is numeric or ".":
-- Append to current_input
-- Update equation display
-- Do NOT modify expression
-
-IF key is operator:
-- Append current_input to expression
-- Append operator to expression
-- Update history_var to show appended value
-- Clear equation display
-- Reset current_input
-
-Edge Cases:
-- Operator press when current_input is empty → no action
-- Double operator press → prevented by current_input guard
-
----
-
-## 6.2 equalpress()
-
-Behavior:
-
-1. Append current_input to expression
-2. Evaluate expression using eval()
-3. Apply scientific formatting rule (Section 7)
-4. Set equation to formatted result
-5. Clear history_var
-6. Reset expression
-7. Set current_input to formatted result
-
-Edge Cases:
-- Division by zero
-- Malformed expression
-- Empty expression
-
-Failure Behavior:
-- Display "Error"
-- Reset expression
-- Reset current_input
-- Clear history
-
----
-
-## 6.3 clear()
-
-Behavior:
-- expression = ""
-- current_input = ""
-- equation = ""
-- history_var = ""
-
-Must restore application to initial state.
-
----
-
-# 7. Scientific Notation Rule
-
-Condition:
-```
-abs(result) >= 1e9
-```
-
-Formatting:
-```
-"{:.6e}".format(result)
-```
-
-This rule must remain consistent across:
-
-- equalpress()
-- Any future result formatting logic
-
-If threshold changes, update documentation.
-
----
-
-# 8. Evaluation Engine
-
-Current implementation uses:
-
-```
-eval(expression)
-```
-
-Security Implications:
-- Executes arbitrary Python expressions.
-- Safe only because input is restricted to button presses.
-
-If evaluation logic changes (e.g., replaced with parser), update:
-
-- Section 8
-- Section 6.2
-- Known limitations
-- Security notes
-
----
-
-# 9. State Transition Matrix
-
-| Action | expression | current_input | history | display |
-|--------|------------|--------------|----------|----------|
-| Enter digit | unchanged | append digit | unchanged | show current_input |
-| Press operator | append input+op | reset | show input+op | cleared |
-| Press "=" | evaluated then reset | result | cleared | show result |
-| Press "C" | reset | reset | cleared | cleared |
-
-Any behavioral change must update this table.
-
----
-
-# 10. Failure Modes
-
-Defined failure modes:
-
-- ZeroDivisionError
-- SyntaxError
-- Invalid eval()
-
-On failure:
-- Display = "Error"
-- All state reset
-
----
-
-# 11. Invariants
-
-The following must always be true:
-
-1. expression never contains whitespace
-2. expression never ends with operator before evaluation
-3. current_input contains no operators
-4. history_var must never display result
-5. display must never show raw unformatted large result when formatting rule applies
-
-Violation requires documentation update.
-
----
-
-# 12. Documentation Update Triggers
-
-Documentation must be updated if:
-
-- New buttons added
-- Buttons removed
-- Color constants changed
-- Evaluation logic changed
-- State variables renamed
-- Scientific threshold changed
-- Formatting precision changed
-- Parentheses support added
-- Keyboard input added
-- Layout modified
-- Window size changed
-- State machine refactored
-- Double operator behavior modified
-- Error handling logic changed
-
-Failure to update documentation after such change results in documentation inconsistency.
-
----
-
-# 13. Edge Case Coverage Checklist
-
-When reviewing a diff, verify:
-
-- State variables modified?
-- Operator logic changed?
-- Evaluation engine changed?
-- Formatting logic changed?
-- UI layout changed?
-- Color constants changed?
-- Guard conditions changed?
-- Reset behavior changed?
-
-If yes → update relevant sections.
-
----
-
-# 14. Automation Compatibility Notes
-
-This document is structured to:
-
-- Allow section-level patching
-- Map variable names deterministically
-- Map formatting rules deterministically
-- Map color constants deterministically
-- Provide diff-detection anchors
-
-LLM-based documentation updates must preserve:
-
-- Section headers
-- Variable naming
-- Rule definitions
-- Threshold definitions
-- Invariants
-
----
+11. Future Extension Points
+---------------------------
+
+- Replace eval() with safe parser
+- Add keyboard input bindings
+- Add parentheses
+- Add memory functions
+- Add animation transitions
+- Convert to class-based architecture
+
+If architecture shifts from procedural to class-based,
+this document must be rewritten accordingly.

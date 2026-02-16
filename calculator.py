@@ -1,68 +1,96 @@
 import tkinter as tk
 
+# ==============================
+# Configuration
+# ==============================
+
+CONFIG = {
+    "window": {
+        "width": 350,
+        "height": 550,
+        "resizable": False,
+        "background_color": "#1e1e1e"
+    },
+    "colors": {
+        "display_background": "#252526",
+        "button_default": "#333333",
+        "button_operator": "#ff9500",
+        "button_equals": "#28a745",
+        "button_clear": "#d9534f",
+        "button_blank": "#2a2a2a",
+        "text": "white",
+        "history_text": "#aaaaaa"
+    },
+    "formatting": {
+        "scientific_threshold": 1e9,
+        "scientific_precision": 6
+    },
+    "fonts": {
+        "history": ("Arial", 14, "bold"),
+        "display": ("Arial", 26, "bold"),
+        "button": ("Arial", 18, "bold")
+    }
+}
+
+# ==============================
+# Application Setup
+# ==============================
+
 root = tk.Tk()
 root.title("Custom Calculator")
-root.geometry("350x500")
-root.resizable(False, False)
+root.geometry(f"{CONFIG['window']['width']}x{CONFIG['window']['height']}")
+root.resizable(CONFIG['window']['resizable'], CONFIG['window']['resizable'])
+root.configure(bg=CONFIG["window"]["background_color"])
 
-# ---------------- Colors ----------------
-BG_COLOR = "#1e1e1e"
-DISPLAY_COLOR = "#252526"
-BTN_COLOR = "#333333"
-OPERATOR_COLOR = "#ff9500"
-EQUAL_COLOR = "#28a745"
-TEXT_COLOR = "white"
-
-root.configure(bg=BG_COLOR)
-
-# ---------------- Variables ----------------
 expression = ""
 current_input = ""
 
 equation = tk.StringVar()
 history_var = tk.StringVar()
 
-# ---------------- History Label ----------------
+# ==============================
+# Display
+# ==============================
+
 history_label = tk.Label(
     root,
     textvariable=history_var,
-    font=("Arial", 14),
-    bg=BG_COLOR,
-    fg="#888888",
+    font=CONFIG["fonts"]["history"],
+    bg=CONFIG["window"]["background_color"],
+    fg=CONFIG["colors"]["history_text"],
     anchor="e"
 )
-history_label.pack(fill="both", padx=10, pady=(10, 0))
+history_label.grid(row=0, column=0, columnspan=4, sticky="we", padx=10, pady=(5,0))
 
-# ---------------- Display ----------------
 display = tk.Entry(
     root,
     textvariable=equation,
-    font=("Arial", 24),
+    font=CONFIG["fonts"]["display"],
+    bg=CONFIG["colors"]["display_background"],
+    fg=CONFIG["colors"]["text"],
     bd=0,
-    bg=DISPLAY_COLOR,
-    fg=TEXT_COLOR,
-    insertbackground="white",
     justify="right"
 )
-display.pack(fill="both", ipadx=8, ipady=20, padx=10, pady=5)
+display.grid(row=1, column=0, columnspan=4, sticky="nsew", padx=10, pady=10)
 
-# ---------------- Functions ----------------
+# ==============================
+# Button Handlers
+# ==============================
 
 def press(key):
     global expression, current_input
 
-    if key in "+-*/":
-        if current_input == "":
-            return  # Prevent double operators
-
-        expression += current_input + key
-        history_var.set(expression)
-        current_input = ""
-        equation.set("")
-    else:
-        current_input += str(key)
+    if key.isdigit() or key == ".":
+        current_input += key
         equation.set(current_input)
 
+    elif key in "+-*/":
+        if current_input == "":
+            return
+        expression += current_input + key
+        history_var.set(current_input + key)
+        current_input = ""
+        equation.set("")
 
 def equalpress():
     global expression, current_input
@@ -71,22 +99,19 @@ def equalpress():
         expression += current_input
         result = eval(expression)
 
-        # Scientific notation for large numbers
-        if abs(result) >= 1e9:
-            formatted = "{:.6e}".format(result)
-        else:
-            formatted = str(result)
+        if abs(result) >= CONFIG["formatting"]["scientific_threshold"]:
+            result = format(result, f".{CONFIG['formatting']['scientific_precision']}e")
 
-        equation.set(formatted)
+        equation.set(result)
         history_var.set("")
         expression = ""
-        current_input = formatted
+        current_input = str(result)
 
-    except:
+    except Exception:
         equation.set("Error")
+        history_var.set("")
         expression = ""
         current_input = ""
-
 
 def clear():
     global expression, current_input
@@ -95,58 +120,83 @@ def clear():
     equation.set("")
     history_var.set("")
 
-
-# ---------------- Buttons ----------------
-
-button_frame = tk.Frame(root, bg=BG_COLOR)
-button_frame.pack()
+# ==============================
+# Button Layout
+# ==============================
 
 buttons = [
-    ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
-    ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
-    ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
-    ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3),
+    ["7", "8", "9", "/"],
+    ["4", "5", "6", "*"],
+    ["1", "2", "3", "-"],
+    ["0", ".", "=", "+"],
+    ["C", "", "", ""]
 ]
 
-for (text, row, col) in buttons:
+for r, row in enumerate(buttons):
+    for c, label in enumerate(row):
 
-    if text == "=":
-        bg_color = EQUAL_COLOR
-        action = equalpress
-    elif text in "+-*/":
-        bg_color = OPERATOR_COLOR
-        action = lambda x=text: press(x)
-    else:
-        bg_color = BTN_COLOR
-        action = lambda x=text: press(x)
+        if label == "":
+            btn = tk.Button(
+                root,
+                text="",
+                bg=CONFIG["colors"]["button_blank"],
+                state="disabled",
+                bd=0
+            )
 
-    tk.Button(
-        button_frame,
-        text=text,
-        width=5,
-        height=2,
-        font=("Arial", 18),
-        bg=bg_color,
-        fg=TEXT_COLOR,
-        activebackground="#555555",
-        activeforeground="white",
-        bd=0,
-        command=action
-    ).grid(row=row, column=col, padx=5, pady=5)
+        elif label == "C":
+            btn = tk.Button(
+                root,
+                text=label,
+                font=CONFIG["fonts"]["button"],
+                bg=CONFIG["colors"]["button_clear"],
+                fg="white",
+                command=clear
+            )
 
-# ---------------- Clear Button ----------------
+        elif label == "=":
+            btn = tk.Button(
+                root,
+                text=label,
+                font=CONFIG["fonts"]["button"],
+                bg=CONFIG["colors"]["button_equals"],
+                fg=CONFIG["colors"]["text"],
+                command=equalpress
+            )
 
-tk.Button(
-    button_frame,
-    text="C",
-    width=23,
-    height=2,
-    font=("Arial", 18),
-    bg="#d9534f",
-    fg="white",
-    activebackground="#c9302c",
-    bd=0,
-    command=clear
-).grid(row=5, column=0, columnspan=4, pady=10)
+        elif label in "+-*/":
+            btn = tk.Button(
+                root,
+                text=label,
+                font=CONFIG["fonts"]["button"],
+                bg=CONFIG["colors"]["button_operator"],
+                fg=CONFIG["colors"]["text"],
+                command=lambda x=label: press(x)
+            )
+
+        else:
+            btn = tk.Button(
+                root,
+                text=label,
+                font=CONFIG["fonts"]["button"],
+                bg=CONFIG["colors"]["button_default"],
+                fg=CONFIG["colors"]["text"],
+                command=lambda x=label: press(x)
+            )
+
+        btn.grid(row=r + 2, column=c, sticky="nsew")
+
+# ==============================
+# Grid Configuration
+# ==============================
+
+root.grid_rowconfigure(0, weight=0)
+root.grid_rowconfigure(1, weight=0)
+
+for i in range(len(buttons)):
+    root.grid_rowconfigure(i + 2, weight=1)
+
+for i in range(4):
+    root.grid_columnconfigure(i, weight=1)
 
 root.mainloop()
