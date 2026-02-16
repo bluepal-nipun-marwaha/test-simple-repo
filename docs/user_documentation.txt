@@ -1,0 +1,301 @@
+# User Guide
+
+## 1. Overview
+
+Custom Calculator is a desktop GUI arithmetic calculator built with Python and Tkinter.
+
+This document defines:
+
+- UI structure
+- Button behavior
+- State transitions
+- Color scheme
+- Result formatting
+- Error handling
+- Update triggers
+
+This document must remain consistent with application behavior.
+
+---
+
+# 2. User Interface Specification
+
+## 2.1 Window Configuration
+
+- Window Size: 350x500
+- Resizable: Disabled
+- Background Color: #1e1e1e
+
+---
+
+## 2.2 Color Scheme
+
+The application uses the following color constants:
+
+| UI Element | Color | Hex |
+|------------|--------|------|
+| Background | Dark Gray | #1e1e1e |
+| Display Background | Dark Slate | #252526 |
+| Default Button | Dark Gray | #333333 |
+| Operator Buttons | Orange | #ff9500 |
+| Equals Button | Green | #28a745 |
+| Clear Button | Red | #d9534f |
+| Button Active Background | Medium Gray | #555555 |
+| Text Color | White | white |
+| History Text Color | Light Gray | #888888 |
+
+If any of these values change in code, this table must be updated.
+
+---
+
+# 3. Display Components
+
+## 3.1 History Bar (Top Label)
+
+Purpose:
+Displays the previous number and selected operator.
+
+Behavior:
+- Updates when an operator is pressed.
+- Clears when "=" is pressed.
+- Clears when "C" is pressed.
+- Displays in light gray (#888888).
+- Right-aligned.
+
+Example:
+```
+1111111*
+```
+
+---
+
+## 3.2 Main Display (Entry Field)
+
+Purpose:
+Displays:
+- Current number being typed
+- Final calculation result
+- Error message
+
+Behavior:
+- Right-aligned
+- White text
+- Dark background (#252526)
+- Clears when:
+  - Operator is pressed
+  - Clear is pressed
+  - Error occurs
+
+---
+
+# 4. Button Behavior Specification
+
+## 4.1 Numeric Buttons (0–9)
+
+Color:
+- Background: #333333
+- Text: white
+
+Behavior:
+- Appends digit to `current_input`
+- Updates main display
+- Does not affect history bar
+
+Example:
+```
+Press 1 → display: 1
+Press 2 → display: 12
+```
+
+---
+
+## 4.2 Decimal Button (.)
+
+Behavior:
+- Appends "." to `current_input`
+- No validation prevents multiple decimals
+- Updates main display
+
+---
+
+## 4.3 Operator Buttons (+, -, *, /)
+
+Color:
+- Background: #ff9500
+- Text: white
+
+Behavior when pressed:
+
+1. Appends `current_input` to `expression`
+2. Appends selected operator to `expression`
+3. Updates history bar with:
+   ```
+   [current_input][operator]
+   ```
+4. Clears main display
+5. Resets `current_input`
+
+Example:
+
+Input:
+```
+1111111
+Press *
+```
+
+Result:
+- History bar: `1111111*`
+- Main display: empty
+
+---
+
+## 4.4 Equals Button (=)
+
+Color:
+- Background: #28a745
+- Text: white
+
+Behavior:
+
+1. Appends `current_input` to `expression`
+2. Evaluates full expression using Python `eval()`
+3. Applies scientific formatting if threshold met
+4. Displays result in main display
+5. Clears history bar
+6. Resets `expression`
+7. Sets result as new `current_input`
+
+---
+
+## 4.5 Clear Button (C)
+
+Color:
+- Background: #d9534f
+- Text: white
+
+Behavior:
+
+- Clears `expression`
+- Clears `current_input`
+- Clears main display
+- Clears history bar
+- Returns calculator to initial state
+
+---
+
+# 5. Result Display Rules
+
+## 5.1 Normal Results
+
+If:
+
+```
+abs(result) < 1e9
+```
+
+Result is displayed as standard string representation.
+
+---
+
+## 5.2 Scientific Notation Rule
+
+If:
+
+```
+abs(result) >= 1e9
+```
+
+Formatting:
+
+```
+"{:.6e}".format(result)
+```
+
+Example:
+
+| Raw Result | Display |
+|------------|----------|
+| 10000000000 | 1.000000e+10 |
+| 1234567890123 | 1.234568e+12 |
+
+---
+
+# 6. Error Handling
+
+If evaluation fails (e.g., division by zero):
+
+- Display shows: `Error`
+- `expression` resets
+- `current_input` resets
+- History clears
+
+---
+
+# 7. State Model (User-Relevant Explanation)
+
+The calculator internally maintains:
+
+- `expression` → full mathematical expression
+- `current_input` → currently typed number
+
+Operators move input to history.
+Equals evaluates full expression.
+Clear resets entire state.
+
+---
+
+# 8. Interaction Flow Example
+
+Example Sequence:
+
+```
+Press 1
+Press 1
+Press 1
+Press *
+Press 5
+Press 5
+Press 5
+Press =
+```
+
+System State Transitions:
+
+1. current_input = "111"
+2. expression = "111*"
+3. history = "111*"
+4. current_input = "555"
+5. expression = "111*555"
+6. result evaluated
+7. display shows result
+8. expression reset
+9. history cleared
+
+---
+
+# 9. Limitations
+
+- Parentheses not supported
+- No memory storage
+- No keyboard support
+- Uses eval()
+- No multi-step chained evaluation without pressing "="
+
+---
+
+# 10. Documentation Update Requirements
+
+This document must be updated if:
+
+- Color constants change
+- Button colors change
+- UI layout changes
+- State variables change
+- Scientific threshold changes
+- Formatting rule changes
+- Operator behavior changes
+- Error handling changes
+- New buttons are added
+- Button removal occurs
+
+Failure to update this document after behavior changes results in documentation inconsistency.
