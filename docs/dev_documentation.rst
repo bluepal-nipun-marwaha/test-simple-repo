@@ -8,7 +8,7 @@ The calculator application is a Tkinter-based GUI program structured around:
 
 - A centralized CONFIG dictionary
 - A global expression state model
-- Event-driven button callbacks
+- Event-driven button callbacks, excluding factorial
 - Grid-based layout management
 - A lightweight formatting layer for large-number rendering
 
@@ -30,7 +30,7 @@ The calculator maintains two primary state variables:
 
 expression (str)
     Stores the full arithmetic expression being built.
-    Examples: "12+3*5", "5!+2"
+    Example: "12+3*5"
 
 current_input (str)
     Stores the currently visible number in the main display.
@@ -112,7 +112,7 @@ Rows 2–6:
 Grid Configuration:
 - All columns have equal weight.
 - All button rows have equal weight.
-- Blank button row exists for layout symmetry.
+- Blank buttons exist for layout symmetry, factorial button removed.
 
 If grid weights or layout structure change,
 documentation must reflect:
@@ -133,11 +133,11 @@ Numeric Buttons (0–9)
     Update main display
 
 Decimal Button (.)
-    Appends decimal without validation
+    Appends decimal
 
 Operator Buttons (+, -, *, /)
     Move current_input to history
-    Append operator to expression
+    Append operator to expression (factorial removed)
     Reset current_input
 
 Equals Button (=)
@@ -154,10 +154,7 @@ Blank Buttons
     Disabled
     Layout placeholders only
 
-Factorial Button (!)
-    Calculates factorial of the current number.
-    Moves current_input to history.
-    Resets current_input.
+- Removed factorial feature
 
 If button categories change,
 documentation must update:
@@ -181,9 +178,6 @@ Process:
 4. Apply formatting rules.
 5. Update display.
 6. Reset appropriate state.
-
-- Added support for factorial evaluation using 'math.factorial'.
-- Validates input to ensure non-negative integers.
 
 Risks:
 - eval() is unsafe for arbitrary input.
