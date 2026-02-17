@@ -23,7 +23,7 @@ CONFIG = {
     },
     "formatting": {
         "scientific_threshold": 1e9,
-        "scientific_precision": 10
+        "scientific_precision": 6
     },
     "fonts": {
         "history": ("Arial", 14, "bold"),
