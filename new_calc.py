@@ -137,7 +137,7 @@ def equalpress():
         current_input = str(result)
 
     except Exception:
-        equation.set("Error")
+        equation.set("Mistake")
         history_var.set("")
         expression = ""
         current_input = ""
