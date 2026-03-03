@@ -3,8 +3,7 @@ TASK MANAGER GUI - USER GUIDE
 
 OVERVIEW
 --------
-Task Manager is a desktop application that allows you to manage daily tasks
-through a simple graphical interface.
+Task Manager is a desktop application that allows you to manage daily tasks through a simple graphical interface.
 
 STARTING THE APPLICATION
 ------------------------
@@ -21,11 +20,14 @@ ADDING A TASK
 2. Enter a description in the second field (optional).
 3. Click "Add Task".
 4. The task will appear in the list.
+5. If no title is entered, a warning message will be shown.
+6. A success message will confirm the task was added.
 
-VIEWING A DESCRIPTION
----------------------
+VIEWING A DESCRIPTION AND USING THE SCROLLBAR
+---------------------------------------------
 1. Click on any task in the list.
 2. The description will appear below the list.
+3. Use the scrollbar next to the task list for easier navigation through tasks.
 
 MARKING A TASK COMPLETE
 -----------------------
@@ -38,6 +40,7 @@ DELETING A TASK
 1. Select a task.
 2. Click "Delete Task".
 3. The task will be removed permanently.
+4. A confirmation dialog will appear. Click 'Yes' to proceed.
 
 DATA STORAGE
 ------------

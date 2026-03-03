@@ -55,6 +55,9 @@ services.py
         - complete_task()
         - delete_task()
 
+- Implemented confirmation dialog when adding and deleting tasks using Tkinter's messagebox.
+- The task list now includes a scrollbar for improved navigation of tasks.
+
 Data Model
 ----------
 
@@ -97,3 +100,4 @@ Design Considerations
 - Minimal coupling
 - High cohesion
 - Persistent storage abstraction
+- Enhanced user feedback with confirmation dialogs for better UX.

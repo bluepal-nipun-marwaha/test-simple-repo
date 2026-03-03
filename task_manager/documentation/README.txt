@@ -1,4 +1,3 @@
-📄 1️⃣ README.md (Markdown Format)
 # Task Manager GUI
 
 A simple desktop Task Manager application built with Python and Tkinter.
@@ -89,6 +88,9 @@ Each task is saved in the following format:
 - Mark tasks as complete
 - View descriptions on selection
 - Persistent storage using JSON
+- Input validation for task titles
+- Confirmation dialogs for task deletion
+- Keyboard shortcuts for adding tasks
 
 ---
 
