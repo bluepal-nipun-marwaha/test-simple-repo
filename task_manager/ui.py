@@ -1,4 +1,6 @@
+from email import message
 import tkinter as tk
+from tkinter import messagebox
 from services import add_task, list_tasks, complete_task, delete_task
 
 class TaskManagerUI:
@@ -8,6 +10,7 @@ class TaskManagerUI:
 
         self.title_entry = tk.Entry(root, width=40)
         self.title_entry.pack(pady=5)
+        self.title_entry.focus()
 
         self.desc_entry = tk.Entry(root, width=40)
         self.desc_entry.pack(pady=5)
@@ -15,8 +18,17 @@ class TaskManagerUI:
         self.add_button = tk.Button(root, text="Add Task", command=self.add_task)
         self.add_button.pack(pady=5)
 
-        self.listbox = tk.Listbox(root, width=50)
-        self.listbox.pack(pady=10)
+        list_frame = tk.Frame(self.root)
+        list_frame.pack(pady=10)
+
+        self.listbox = tk.Listbox(list_frame, width=50)
+        self.listbox.pack(side=tk.LEFT)
+
+        scrollbar = tk.Scrollbar(list_frame)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.listbox.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.listbox.yview)
 
         self.listbox.bind("<<ListboxSelect>>", self.show_description)
 
@@ -32,6 +44,8 @@ class TaskManagerUI:
         self.delete_button = tk.Button(root, text="Delete Task", command=self.delete_task)
         self.delete_button.pack(pady=5)
 
+        self.root.bind("<Return>", lambda event: self.add_task())
+
         self.refresh_tasks()
 
     def refresh_tasks(self):
@@ -44,11 +58,17 @@ class TaskManagerUI:
     def add_task(self):
         title = self.title_entry.get()
         description = self.desc_entry.get()
-        if title:
-            add_task(title, description)
-            self.title_entry.delete(0, tk.END)
-            self.desc_entry.delete(0, tk.END)
-            self.refresh_tasks()
+
+        if not title.strip():
+            messagebox.showwarning("Warning", "Task title cannot be empty!")
+            return
+        
+        add_task(title, description)
+        self.title_entry.delete(0, tk.END)
+        self.desc_entry.delete(0, tk.END)
+        
+        messagebox.showinfo("Success", "Task added successfully!")
+        self.refresh_tasks()
 
     def show_description(self, event):
         selection = self.listbox.curselection()
@@ -71,5 +91,7 @@ class TaskManagerUI:
     def delete_task(self):
         selection = self.listbox.curselection()
         if selection:
-            delete_task(selection[0])
-            self.refresh_tasks()
+            confirm = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this task?")
+            if confirm:
+                delete_task(selection[0])
+                self.refresh_tasks()
