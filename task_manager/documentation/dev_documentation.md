@@ -14,6 +14,9 @@ The application is structured into the following layers:
 
 UI Layer
     Handles all graphical interface components and event bindings.
+    - Integrated a vertical scrollbar to improve task list navigation.
+    - Message boxes implemented for user feedback when adding or deleting tasks.
+    - Added 'Enter' key binding to trigger task addition.
 
 Services Layer
     Contains business logic for task management.
