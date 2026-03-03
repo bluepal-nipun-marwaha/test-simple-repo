@@ -28,7 +28,7 @@ task_manager_gui/
 ### Requirements
 - Python 3.8+
 
-No external libraries are required.
+No additional external library is needed.
 
 ### Setup
 
@@ -88,6 +88,7 @@ Each task is saved in the following format:
 - Persistent storage using JSON
 - Validation for empty task titles
 - Confirmation dialog for task deletion
+- Simplified task addition process
 
 ---
 
