@@ -14,7 +14,6 @@ The application is structured into the following layers:
 
 UI Layer
     Handles all graphical interface components and event bindings.
-    - Added focus on the title entry when the application starts.
     - Implemented input validation to prevent adding tasks with empty titles.
     - Integrated message boxes for user feedback during task addition and deletion.
 
@@ -88,12 +87,11 @@ Possible enhancements:
 
 - Replace JSON with SQLite
 - Add task editing capability
-- Add confirmation dialog for task deletion
-- Implement input validation for empty task titles
 - Implement task filtering
 - Introduce logging
 - Add unit tests
 - Refactor into MVC pattern
+- Implement focus on the title entry when the application starts
 
 Design Considerations
 ---------------------
