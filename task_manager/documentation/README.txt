@@ -1,4 +1,3 @@
-📄 1️⃣ README.md (Markdown Format)
 # Task Manager GUI
 
 A simple desktop Task Manager application built with Python and Tkinter.
@@ -37,7 +36,6 @@ Navigate into the project folder:
 
     cd task_manager_gui
 
-
 ---
 
 ## ▶️ Running the Application
@@ -57,7 +55,6 @@ The application follows a layered architecture:
     Services Layer (Business Logic)
     ↓
     Storage Layer (JSON Persistence)
-
 
 This ensures:
 - Separation of concerns  
@@ -89,6 +86,8 @@ Each task is saved in the following format:
 - Mark tasks as complete
 - View descriptions on selection
 - Persistent storage using JSON
+- Validation for empty task titles
+- Confirmation dialog for task deletion
 
 ---
 
