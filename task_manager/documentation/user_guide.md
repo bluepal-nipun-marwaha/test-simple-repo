@@ -21,6 +21,7 @@ ADDING A TASK
 2. Enter a description in the second field (optional).
 3. Click "Add Task".
 4. The task will appear in the list.
+- An alert will appear if the task title is empty.
 
 VIEWING A DESCRIPTION
 ---------------------
@@ -38,6 +39,7 @@ DELETING A TASK
 1. Select a task.
 2. Click "Delete Task".
 3. The task will be removed permanently.
+- A confirmation prompt will appear before deletion.
 
 DATA STORAGE
 ------------
