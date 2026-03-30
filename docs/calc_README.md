@@ -24,9 +24,9 @@ The application uses a centralized `CONFIG` architecture to define UI styling, f
 - Bold, high-visibility UI typography
 - Equal-sized responsive button grid
 - Clear (`C`) functionality
-- Error handling for invalid expressions (displays 'Mistake')
+- Error handling for invalid expressions, including 'Mistake' message for invalid inputs
 - Additional blank button row for layout extensibility
-- Factorial operation (`!`) support
+- Factorial operation (`!`)
 
 ---
 

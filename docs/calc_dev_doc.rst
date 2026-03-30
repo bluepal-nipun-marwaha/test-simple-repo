@@ -155,8 +155,8 @@ Blank Buttons
     Layout placeholders only
 
 Factorial Button (!)
-    Applies factorial to the current_input
-    Updates expression and history
+    Appends factorial operation to the expression
+    Processes using custom parser logic
 
 If button categories change,
 documentation must update:
@@ -180,8 +180,6 @@ Process:
 4. Apply formatting rules.
 5. Update display.
 6. Reset appropriate state.
-
-- Added support for factorial calculation using '!' operator.
 
 Risks:
 - eval() is unsafe for arbitrary input.
