@@ -1,0 +1,152 @@
+# User Guide
+
+## 1. Overview
+
+Custom Calculator is a desktop GUI arithmetic calculator built with Python and Tkinter.
+
+This document defines:
+
+- UI structure
+- Button behavior
+- State transitions
+- Color scheme
+- Typography
+- Result formatting
+- Error handling
+- Update triggers
+
+---
+
+# 2. User Interface Specification
+
+## 2.1 Window Configuration
+
+- Window Size: 350x550
+- Resizable: Disabled
+- Background Color: #1e1e1e
+
+---
+
+## 2.2 Typography
+
+The application uses bold, high-visibility fonts.
+
+| UI Element   | Font               |
+|--------------|-------------------|
+| History Bar  | Arial 14 Bold     |
+| Main Display | Arial 26 Bold     |
+| Buttons      | Arial 18 Bold     |
+
+All text is bold for improved readability.
+
+---
+
+## 2.3 Color Scheme
+
+| UI Element            | Hex      |
+|-----------------------|----------|
+| Background            | #1e1e1e  |
+| Display Background    | #252526  |
+| Default Button        | #333333  |
+| Operator Buttons      | #ff9500  |
+| Equals Button         | #28a745  |
+| Clear Button          | #d9534f  |
+| Blank Button Row      | #2a2a2a  |
+| Text Color            | white    |
+| History Text Color    | #aaaaaa  |
+
+---
+
+# 3. Layout Structure
+
+- Row 0: History bar
+- Row 1: Main display
+- Rows 2–6: Button grid
+- All button rows are equal height
+- All columns are equal width
+- Final row includes pork factorial button
+
+---
+
+# 4. Button Behavior Specification
+
+## Numeric Buttons (0–9)
+
+- Appends digit to current input
+- Updates main display
+
+---
+
+## Decimal (.)
+
+- Appends decimal point
+- No validation prevents multiple decimals
+
+---
+
+## Operator Buttons (+, -, *, /)
+
+- Moves current number to history bar
+- Appends operator to expression
+- Clears main display
+
+---
+
+## Equals (=)
+
+- Evaluates full expression using eval()
+- Applies scientific formatting if abs(result) >= 1e9
+- Displays formatted result
+- Clears history
+
+---
+
+## Clear (C)
+
+- Resets expression
+- Resets current input
+- Clears display
+- Clears history
+
+---
+
+## New Operator Button (!)
+
+- Calculates factorial of the current input
+- Updates history and clears main display
+
+---
+
+# 5. Scientific Formatting Rule
+
+If:
+
+abs(result) >= 1e9
+
+Format result using:
+
+"{:.6e}"
+
+---
+
+# 6. Error Handling
+
+On evaluation failure:
+
+- Display shows "Error"
+- All internal state resets
+
+---
+
+# 7. Documentation Update Requirements
+
+This document must be updated if:
+- New operator functionalities are introduced
+- Window size changes
+- Font sizes change
+- Color constants change
+- Button layout changes
+- Blank row modified or removed
+- Formatting rules change
+- State model changes
+- Evaluation engine changes
