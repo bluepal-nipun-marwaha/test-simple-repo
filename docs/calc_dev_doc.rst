@@ -155,7 +155,8 @@ Blank Buttons
     Layout placeholders only
 
 Factorial Button (!)
-    Appends factorial operation to current expression. Updates display and history accordingly.
+    Applies factorial to the current_input
+    Updates expression and history
 
 If button categories change,
 documentation must update:
@@ -179,6 +180,8 @@ Process:
 4. Apply formatting rules.
 5. Update display.
 6. Reset appropriate state.
+
+- Added support for factorial calculation using '!' operator.
 
 Risks:
 - eval() is unsafe for arbitrary input.
@@ -223,7 +226,7 @@ documentation must reflect:
 
 On evaluation exception:
 
-- Display shows "Error"
+- Display shows "Mistake"
 - expression resets to empty string
 - current_input resets
 - history clears
@@ -296,7 +299,7 @@ def equalpress():
         Clears history label.
 
     Error Handling:
-        Catches all exceptions, displays 'Mistake', and resets state.
+        Catches all exceptions and resets state.
     """
 
 This level of documentation ensures automated LLM diff analysis
