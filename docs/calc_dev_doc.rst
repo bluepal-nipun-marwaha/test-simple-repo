@@ -154,6 +154,9 @@ Blank Buttons
     Disabled
     Layout placeholders only
 
+Factorial Button (!)
+    Appends factorial operation to current expression. Updates display and history accordingly.
+
 If button categories change,
 documentation must update:
 
@@ -293,7 +296,7 @@ def equalpress():
         Clears history label.
 
     Error Handling:
-        Catches all exceptions and resets state.
+        Catches all exceptions, displays 'Mistake', and resets state.
     """
 
 This level of documentation ensures automated LLM diff analysis

@@ -64,7 +64,7 @@ All text is bold for improved readability.
 - Rows 2–6: Button grid
 - All button rows are equal height
 - All columns are equal width
-- Final row includes blank placeholder buttons
+- Final row includes a factorial button and blank placeholders
 
 ---
 
@@ -110,6 +110,14 @@ All text is bold for improved readability.
 
 ---
 
+## Factorial (!)
+
+- Appends a factorial operator to the current expression
+- Evaluates factorials during expression evaluation
+- Displays mistake if factorial computation fails
+
+---
+
 # 5. Scientific Formatting Rule
 
 If:
@@ -126,7 +134,7 @@ Format result using:
 
 On evaluation failure:
 
-- Display shows "Error"
+- Display shows "Mistake" instead of "Error"
 - All internal state resets
 
 ---
