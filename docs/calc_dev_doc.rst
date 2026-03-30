@@ -155,9 +155,9 @@ Blank Buttons
     Layout placeholders only
 
 Factorial Button (!)
-    Computes factorial of the current input.
-    Moves current_input to expression with '!'
-    Updates history bar.
+    Applies factorial operation to current_input
+    Updates history with '!'
+    Resets current_input
 
 If button categories change,
 documentation must update:
@@ -186,9 +186,6 @@ Risks:
 - eval() is unsafe for arbitrary input.
 - No operator precedence modification.
 - No parentheses support.
-
-Factorial Handling:
-- Factorial operations are supported by detecting '!', replacing it with the computed factorial value within the expression.
 
 Any change to evaluation engine requires:
 
