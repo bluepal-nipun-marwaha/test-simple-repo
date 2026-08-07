@@ -1,4 +1,6 @@
 import tkinter as tk
+import math
+import re
 
 # ==============================
 # Configuration
@@ -92,12 +94,39 @@ def press(key):
         current_input = ""
         equation.set("")
 
+    elif key == "!":
+        if current_input == "":
+            return
+        expression += current_input + "!"
+        history_var.set(current_input + "!")
+        current_input = ""
+        equation.set("")
+
 def equalpress():
     global expression, current_input
 
     try:
         expression += current_input
-        result = eval(expression)
+
+        processed_expression = expression
+        pattern = r'(\d+)!'
+
+        while re.search(pattern, processed_expression):
+            match = re.search(pattern, processed_expression)
+            number = int(match.group(1))
+
+            if number < 0:
+                raise ValueError("Negative factorial")
+
+            factorial_value = math.factorial(number)
+
+            processed_expression = processed_expression.replace(
+                match.group(0),
+                str(factorial_value),
+                1
+            )
+
+        result = eval(processed_expression)
 
         if abs(result) >= CONFIG["formatting"]["scientific_threshold"]:
             result = format(result, f".{CONFIG['formatting']['scientific_precision']}e")
@@ -108,7 +137,7 @@ def equalpress():
         current_input = str(result)
 
     except Exception:
-        equation.set("Error")
+        equation.set("Mistake")
         history_var.set("")
         expression = ""
         current_input = ""
@@ -129,7 +158,7 @@ buttons = [
     ["4", "5", "6", "*"],
     ["1", "2", "3", "-"],
     ["0", ".", "=", "+"],
-    ["C", "", "", ""]
+    ["C", "", "", "!"]
 ]
 
 for r, row in enumerate(buttons):
@@ -164,7 +193,7 @@ for r, row in enumerate(buttons):
                 command=equalpress
             )
 
-        elif label in "+-*/":
+        elif label in "+-*/!":
             btn = tk.Button(
                 root,
                 text=label,
