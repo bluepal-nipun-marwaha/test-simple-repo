@@ -92,13 +92,6 @@ All text is bold for improved readability.
 
 ---
 
-## Factorial Button (!)
-
-- Calculates the factorial of the current number
-- Updates the main display with the result
-
----
-
 ## Equals (=)
 
 - Evaluates full expression using eval()
@@ -114,6 +107,12 @@ All text is bold for improved readability.
 - Resets current input
 - Clears display
 - Clears history
+
+---
+
+## Factorial (!)
+
+- Removed from functionality
 
 ---
 

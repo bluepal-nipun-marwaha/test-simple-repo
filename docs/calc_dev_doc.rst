@@ -154,16 +154,14 @@ Blank Buttons
     Disabled
     Layout placeholders only
 
-Factorial Button (!)
-    Appends factorial operation to the expression
-    Processes using custom parser logic
-
 If button categories change,
 documentation must update:
 
 - Behavior rules
 - UI description
 - State transition logic
+
+- Removed support for factorial button and related logic.
 
 ---
 
@@ -224,7 +222,7 @@ documentation must reflect:
 
 On evaluation exception:
 
-- Display shows "Mistake"
+- Display shows "Error"
 - expression resets to empty string
 - current_input resets
 - history clears
@@ -235,6 +233,8 @@ documentation must include:
 - What triggers error
 - How UI responds
 - What state resets occur
+
+- Updated error message display from 'Mistake' to 'Error'.
 
 ---
 

@@ -24,9 +24,9 @@ The application uses a centralized `CONFIG` architecture to define UI styling, f
 - Bold, high-visibility UI typography
 - Equal-sized responsive button grid
 - Clear (`C`) functionality
-- Error handling for invalid expressions, including 'Mistake' message for invalid inputs
+- Error handling for invalid expressions
 - Additional blank button row for layout extensibility
-- Factorial operation (`!`)
+- Removed factorial functionality
 
 ---
 
@@ -38,8 +38,7 @@ The application uses a centralized `CONFIG` architecture to define UI styling, f
   - The main display clears for the next number.
 - When "=" is pressed:
   - The full expression is evaluated.
-  - The result is shown in the main display.
-  - The history bar clears.
+  - An error message 'Error' appears if invalid input is detected.
 - Large numbers are automatically formatted into scientific notation.
 - All buttons are equal size using weighted grid configuration.
 - Text is bold and larger for readability.
