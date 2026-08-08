@@ -154,6 +154,10 @@ Blank Buttons
     Disabled
     Layout placeholders only
 
+Factorial Button (!)
+    Appends factorial operator to the current_input
+    Updates history display
+
 If button categories change,
 documentation must update:
 
@@ -220,7 +224,7 @@ documentation must reflect:
 
 On evaluation exception:
 
-- Display shows "Error"
+- Display shows "Mistake"
 - expression resets to empty string
 - current_input resets
 - history clears
