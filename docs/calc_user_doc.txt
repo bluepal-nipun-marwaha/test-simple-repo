@@ -110,6 +110,13 @@ All text is bold for improved readability.
 
 ---
 
+## Factorial (!)
+
+- Applies factorial operation to the current number
+- Updates history bar with factorial expression
+
+---
+
 # 5. Scientific Formatting Rule
 
 If:
@@ -126,7 +133,7 @@ Format result using:
 
 On evaluation failure:
 
-- Display shows "Error"
+- Display shows "Mistake"
 - All internal state resets
 
 ---
